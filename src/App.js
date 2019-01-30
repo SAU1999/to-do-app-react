@@ -1,26 +1,117 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Todos from "./components/Todos"
+import Header from "./components/layout/Header"
+import AddTodo from "./components/AddTodo"
+import {BrowserRouter as Router, Route} from "react-router-dom"
+import About from "./components/pages/About"
+import axios from "axios"
+import SearchTodoItem from "./components/SearchTodoItem"
+
+
 
 class App extends Component {
+
+  state = {
+    todos : [],
+    suggestions : []
+  }
+
+
+  filterTodos = (query) => {
+    console.log(`update${query}`);
+    query = query.toLowerCase();
+    this.setState({
+      suggestions : query === "" ? this.state.todos :this.state.todos.filter((todo) => todo.taskName.toLowerCase().startsWith(query)),
+      todos : this.state.todos
+    })
+  }
+
+  componentDidMount(){
+    axios.get("http://localhost:3001/api")
+    .then(res => {
+      this.setState({todos : res.data})
+      this.filterTodos("");
+    })
+  }
+
+  markComplete = (id) =>{
+    axios.put(`http://localhost:3001/api/update/task/${id}`)
+    .then(
+      this.setState({
+        todos : this.state.todos.map((todo) => {
+          if(todo.id === id)
+            todo.isDone = !todo.isDone;
+          return todo;
+        })
+      })
+    )
+    
+  }
+
+  delTodo = (id) =>{
+    axios.delete(`http://localhost:3001/api/delete/task/${id}`)
+    .then(res => {
+      console.log(id);
+      this.setState({
+      todos : [...this.state.todos.filter((todo) => todo.id !== id)]
+      
+      })
+      this.filterTodos("");
+    })
+    
+  }
+
+  AddTodo = (title) => {
+
+    axios.post("http://localhost:3001/api/add/task",{
+      taskName : title
+    })
+    .then(res => {
+      console.log(res);
+      const newTodo = {
+        id : res.data.task_id,
+        taskName : title,
+        isDone : false
+      }
+
+      this.setState({
+        
+        todos : [...this.state.todos,newTodo]
+      })
+
+      this.filterTodos("");
+    })
+    
+    
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div className="App">
+          <div className="container">
+          <Header/>
+
+          <Route path="/" exact render= { props => (
+            
+            <React.Fragment>
+              <AddTodo AddTodo={this.AddTodo}/>
+    
+              <SearchTodoItem todos = {this.state.todos} filterTodos={this.filterTodos}/>
+              <ul className="list-group">
+              <Todos todos = {this.state.suggestions} markComplete={this.markComplete} delTodo={this.delTodo}/>
+              </ul>
+              
+            </React.Fragment> 
+          )
+          }/>
+
+
+          <Route path = "/about" component={About}/>
+          </div>
+        </div>
+      </Router>
+      
     );
   }
 }
