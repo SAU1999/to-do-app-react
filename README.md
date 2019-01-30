@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-live at [https://sau1999.github.io/to-do-app-react/](https://sau1999.github.io/to-do-app-react/)
+See it live at [https://sau1999.github.io/to-do-app-react/](https://sau1999.github.io/to-do-app-react/)
 ## Available Scripts
 
 In the project directory, you can run:
