@@ -2,7 +2,7 @@
   "name": "learn_react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sau1999.github.io/to-do-app-react",
+  "homepage": "http://SAU1999.github.io/to-do-app-react",
   "dependencies": {
     "axios": "^0.18.0",
     "gh-pages": "^2.0.1",

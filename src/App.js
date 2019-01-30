@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    axios.get("http://localhost:3001/api")
+    axios.get("http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api")
     .then(res => {
       this.setState({todos : res.data})
       this.filterTodos("");
@@ -35,7 +35,7 @@ class App extends Component {
   }
 
   markComplete = (id) =>{
-    axios.put(`http://localhost:3001/api/update/task/${id}`)
+    axios.put(`http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api/update/task/${id}`)
     .then(
       this.setState({
         todos : this.state.todos.map((todo) => {
@@ -49,7 +49,7 @@ class App extends Component {
   }
 
   delTodo = (id) =>{
-    axios.delete(`http://localhost:3001/api/delete/task/${id}`)
+    axios.delete(`http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/${id}`)
     .then(res => {
       console.log(id);
       this.setState({
@@ -63,7 +63,7 @@ class App extends Component {
 
   AddTodo = (title) => {
 
-    axios.post("http://localhost:3001/api/add/task",{
+    axios.post("http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api/add/task",{
       taskName : title
     })
     .then(res => {
