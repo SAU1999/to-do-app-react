@@ -27,15 +27,17 @@ class App extends Component {
   }
 
   componentDidMount(){
-    axios.get("http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api")
+    axios.get("https://cors-anywhere.herokuapp.com/http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api")
     .then(res => {
-      this.setState({todos : res.data})
-      this.filterTodos("");
+      this.setState({todos : res.data,
+        suggestions : res.data
+      })
+      
     })
   }
 
   markComplete = (id) =>{
-    axios.put(`http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api/update/task/${id}`)
+    axios.put(`https://cors-anywhere.herokuapp.com/http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api/update/task/${id}`)
     .then(
       this.setState({
         todos : this.state.todos.map((todo) => {
@@ -49,7 +51,7 @@ class App extends Component {
   }
 
   delTodo = (id) =>{
-    axios.delete(`http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/${id}`)
+    axios.delete(`https://cors-anywhere.herokuapp.com/http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api/delete/task/${id}`)
     .then(res => {
       console.log(id);
       this.setState({
@@ -63,7 +65,7 @@ class App extends Component {
 
   AddTodo = (title) => {
 
-    axios.post("http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api/add/task",{
+    axios.post("https://cors-anywhere.herokuapp.com/http://todoapi-todoapi.1d35.starter-us-east-1.openshiftapps.com/api/add/task",{
       taskName : title
     })
     .then(res => {
@@ -87,7 +89,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
           <div className="container">
           <Header/>
