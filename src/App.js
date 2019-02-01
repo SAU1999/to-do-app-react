@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    axios.get("https://sheltered-escarpment-45157.herokuapp.com/api")
+    axios.get("https://express-to-do-api.herokuapp.com/api")
     .then(res => {
       this.setState({todos : res.data,
         suggestions : res.data
@@ -37,7 +37,7 @@ class App extends Component {
   }
 
   markComplete = (id) =>{
-    axios.put(`https://sheltered-escarpment-45157.herokuapp.com/api/update/task/${id}`)
+    axios.put(`https://express-to-do-api.herokuapp.com/api/update/task/${id}`)
     .then(
       this.setState({
         todos : this.state.todos.map((todo) => {
@@ -51,7 +51,7 @@ class App extends Component {
   }
 
   delTodo = (id) =>{
-    axios.delete(`https://sheltered-escarpment-45157.herokuapp.com/api/delete/task/${id}`)
+    axios.delete(`https://express-to-do-api.herokuapp.com/api/delete/task/${id}`)
     .then(res => {
       console.log(id);
       this.setState({
@@ -65,7 +65,7 @@ class App extends Component {
 
   AddTodo = (title) => {
 
-    axios.post("https://sheltered-escarpment-45157.herokuapp.com/api/add/task",{
+    axios.post("https://express-to-do-api.herokuapp.com/api/add/task",{
       taskName : title
     })
     .then(res => {
